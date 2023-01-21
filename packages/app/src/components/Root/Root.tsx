@@ -71,6 +71,16 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
         <SidebarItem icon={CreateComponentIcon} to="create" text="Create..." />
         {/* End global nav */}
         <SidebarDivider />
+
+        <SidebarGroup label="HIP" icon={<MenuIcon />}>
+          {/*HIP Technologies*/}
+          <SidebarItem icon={ExtensionIcon} to="kafka-tools" text="Kafka Tools" />
+          <SidebarDivider />
+          {/*End HIP Technologies*/}
+          <SidebarScrollWrapper>
+            <SidebarItem icon={MapIcon} to="tech-radar" text="Tech Radar" />
+          </SidebarScrollWrapper>
+        </SidebarGroup>
         <SidebarScrollWrapper>
           <SidebarItem icon={MapIcon} to="tech-radar" text="Tech Radar" />
         </SidebarScrollWrapper>
