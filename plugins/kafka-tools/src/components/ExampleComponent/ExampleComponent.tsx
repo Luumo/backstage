@@ -13,8 +13,8 @@ import { ExampleFetchComponent } from '../ExampleFetchComponent';
 
 export const ExampleComponent = () => (
   <Page themeId="tool">
-    <Header title="Welcome to kafka-tools!" subtitle="Optional subtitle">
-      <HeaderLabel label="Owner" value="Team X" />
+    <Header title="Welcome to kafka-tools!" subtitle="Where topics are created :)">
+      <HeaderLabel label="Owner" value="Team Lumo" />
       <HeaderLabel label="Lifecycle" value="Alpha" />
     </Header>
     <Content>

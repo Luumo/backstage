@@ -12,60 +12,28 @@ const useStyles = makeStyles({
   },
 });
 
-type User = {
-  gender: string; // "male"
-  name: {
-    title: string; // "Mr",
-    first: string; // "Duane",
-    last: string; // "Reed"
-  };
-  location: object; // {street: {number: 5060, name: "Hickory Creek Dr"}, city: "Albany", state: "New South Wales",…}
-  email: string; // "duane.reed@example.com"
-  login: object; // {uuid: "4b785022-9a23-4ab9-8a23-cb3fb43969a9", username: "blackdog796", password: "patch",…}
-  dob: object; // {date: "1983-06-22T12:30:23.016Z", age: 37}
-  registered: object; // {date: "2006-06-13T18:48:28.037Z", age: 14}
-  phone: string; // "07-2154-5651"
-  cell: string; // "0405-592-879"
-  id: {
-    name: string; // "TFN",
-    value: string; // "796260432"
-  };
-  picture: { medium: string }; // {medium: "https://randomuser.me/api/portraits/men/95.jpg",…}
-  nat: string; // "AU"
+type Topic = {
+  name: string; // "my-topic"
 };
 
 type DenseTableProps = {
-  users: User[];
+  topics: Topic[];
 };
 
-export const DenseTable = ({ users }: DenseTableProps) => {
-  const classes = useStyles();
-
+export const DenseTable = ({ topics }: DenseTableProps) => {
   const columns: TableColumn[] = [
-    { title: 'Avatar', field: 'avatar' },
-    { title: 'Name', field: 'name' },
-    { title: 'Email', field: 'email' },
-    { title: 'Nationality', field: 'nationality' },
+    { title: 'Topic', field: 'topic' }
   ];
 
-  const data = users.map(user => {
+  const data = topics.map(topic => {
     return {
-      avatar: (
-        <img
-          src={user.picture.medium}
-          className={classes.avatar}
-          alt={user.name.first}
-        />
-      ),
-      name: `${user.name.first} ${user.name.last}`,
-      email: user.email,
-      nationality: user.nat,
+      topic
     };
   });
 
   return (
     <Table
-      title="Example User List (fetching data from randomuser.me)"
+      title="All topics"
       options={{ search: false, paging: false }}
       columns={columns}
       data={data}
@@ -74,10 +42,13 @@ export const DenseTable = ({ users }: DenseTableProps) => {
 };
 
 export const ExampleFetchComponent = () => {
-  const { value, loading, error } = useAsync(async (): Promise<User[]> => {
-    const response = await fetch('https://randomuser.me/api/?results=20');
+  const { value, loading, error } = useAsync(async (): Promise<Topic[]> => {
+    const response = await fetch('http://localhost:8082/topics');
     const data = await response.json();
-    return data.results;
+    console.log(data);
+
+
+    return data;
   }, []);
 
   if (loading) {
@@ -86,5 +57,5 @@ export const ExampleFetchComponent = () => {
     return <Alert severity="error">{error.message}</Alert>;
   }
 
-  return <DenseTable users={value || []} />;
+  return <DenseTable topics={value || []} />;
 };
