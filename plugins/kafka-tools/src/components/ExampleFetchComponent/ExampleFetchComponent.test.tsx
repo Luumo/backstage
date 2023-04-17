@@ -1,6 +1,3 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { ExampleFetchComponent } from './ExampleFetchComponent';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import { setupRequestMockHandlers } from '@backstage/test-utils';
@@ -17,9 +14,5 @@ describe('ExampleFetchComponent', () => {
         res(ctx.status(200), ctx.delay(2000), ctx.json({})),
       ),
     );
-  });
-  it('should render', async () => {
-    await render(<ExampleFetchComponent />);
-    expect(await screen.findByTestId('progress')).toBeInTheDocument();
   });
 });

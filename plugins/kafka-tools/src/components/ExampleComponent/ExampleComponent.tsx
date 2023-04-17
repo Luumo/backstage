@@ -1,5 +1,5 @@
-import React from 'react';
-import { Typography, Grid } from '@material-ui/core';
+import React, { useState } from 'react';
+import { Typography, Grid, FormGroup, FormControlLabel, Switch } from '@material-ui/core';
 import {
   InfoCard,
   Header,
@@ -11,28 +11,35 @@ import {
 } from '@backstage/core-components';
 import { ExampleFetchComponent } from '../ExampleFetchComponent';
 
-export const ExampleComponent = () => (
-  <Page themeId="tool">
-    <Header title="Welcome to kafka-tools!" subtitle="Where topics are created :)">
-      <HeaderLabel label="Owner" value="Team Lumo" />
-      <HeaderLabel label="Lifecycle" value="Alpha" />
-    </Header>
-    <Content>
-      <ContentHeader title="Plugin title">
-        <SupportButton>A description of your plugin goes here.</SupportButton>
-      </ContentHeader>
-      <Grid container spacing={3} direction="column">
-        <Grid item>
-          <InfoCard title="Information card">
-            <Typography variant="body1">
-              All content should be wrapped in a card like this.
-            </Typography>
-          </InfoCard>
+export const ExampleComponent = () => {
+  const [showInternalTopics, setShowInternalTopics] = useState(false);
+
+  const handleShowInternalTopicsChange = () => {
+    setShowInternalTopics(!showInternalTopics);
+  };
+
+  return (
+    <Page themeId="tool">
+      <Header title="Welcome to kafka-tools!" subtitle="Where topics are created :)">
+        <HeaderLabel label="Owner" value="Team Lumo" />
+        <HeaderLabel label="Lifecycle" value="Alpha" />
+      </Header>
+      <Content>
+        <ContentHeader title="Plugin title">
+          <SupportButton>A description of your plugin goes here.</SupportButton>
+        </ContentHeader>
+        <Grid container spacing={3} direction="column">
+          <Grid item>
+            <FormGroup>
+              <FormControlLabel
+                control={<Switch checked={showInternalTopics} onChange={handleShowInternalTopicsChange} />}
+                label="Show Internal Topics"
+              />
+            </FormGroup>
+            <ExampleFetchComponent showInternalTopics={showInternalTopics} />
+          </Grid>
         </Grid>
-        <Grid item>
-          <ExampleFetchComponent />
-        </Grid>
-      </Grid>
-    </Content>
-  </Page>
-);
+      </Content>
+    </Page>
+  );
+};

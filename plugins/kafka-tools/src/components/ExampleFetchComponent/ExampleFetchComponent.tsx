@@ -1,23 +1,10 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import { Table, TableColumn, Progress } from '@backstage/core-components';
 import Alert from '@material-ui/lab/Alert';
 import useAsync from 'react-use/lib/useAsync';
 
-const useStyles = makeStyles({
-  avatar: {
-    height: 32,
-    width: 32,
-    borderRadius: '50%',
-  },
-});
-
-type Topic = {
-  name: string; // "my-topic"
-};
-
 type DenseTableProps = {
-  topics: Topic[];
+  topics: String[];
 };
 
 export const DenseTable = ({ topics }: DenseTableProps) => {
@@ -41,13 +28,10 @@ export const DenseTable = ({ topics }: DenseTableProps) => {
   );
 };
 
-export const ExampleFetchComponent = () => {
-  const { value, loading, error } = useAsync(async (): Promise<Topic[]> => {
+export const ExampleFetchComponent = ({ showInternalTopics }: { showInternalTopics: boolean }) => {
+  const { value, loading, error } = useAsync(async (): Promise<String[]> => {
     const response = await fetch('http://localhost:8082/topics');
     const data = await response.json();
-    console.log(data);
-
-
     return data;
   }, []);
 
@@ -57,5 +41,10 @@ export const ExampleFetchComponent = () => {
     return <Alert severity="error">{error.message}</Alert>;
   }
 
-  return <DenseTable topics={value || []} />;
+  const filteredTopics = showInternalTopics
+  ? value || [] // Added check to ensure value is defined before using .filter
+  : (value || []).filter((topic) =>  !topic.startsWith("_")); // Added check for topic.name
+
+
+  return <DenseTable topics={filteredTopics} />;
 };
